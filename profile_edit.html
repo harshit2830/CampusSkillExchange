@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Edit profile | Campus Skill Exchange{% endblock %}
+{% block content %}
+<div class="page-heading"><div><span class="eyebrow">Your details</span><h1>Edit profile</h1></div></div>
+<section class="form-card narrow-card"><form method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <label class="form-label" for="full_name">Full name</label><input class="form-control mb-3" id="full_name" name="full_name" required maxlength="100" value="{{ profile_user.full_name }}">
+  <label class="form-label" for="college">College or university</label><input class="form-control mb-3" id="college" name="college" required maxlength="150" value="{{ profile_user.college }}">
+  <label class="form-label" for="department">Course or department</label><input class="form-control mb-3" id="department" name="department" required maxlength="100" value="{{ profile_user.department }}">
+  <label class="form-label" for="semester">Semester</label><input class="form-control mb-3" id="semester" name="semester" type="number" min="1" max="12" required value="{{ profile_user.semester }}">
+  <label class="form-label" for="bio">Short bio</label><textarea class="form-control mb-3" id="bio" name="bio" rows="4" maxlength="500">{{ profile_user.bio }}</textarea>
+  <hr class="my-4"><h2>Learning preferences</h2><p class="muted">These details help campus peers plan a comfortable exchange.</p>
+  <label class="form-label" for="campus_location">Campus location</label><input class="form-control mb-3" id="campus_location" name="campus_location" maxlength="120" value="{{ preferences.campus_location }}" placeholder="For example, North campus">
+  <label class="form-label" for="preferred_format">Preferred learning format</label><select class="form-select mb-3" id="preferred_format" name="preferred_format">{% for item in ['Either', 'In person', 'Online'] %}<option value="{{ item }}" {% if preferences.preferred_format == item %}selected{% endif %}>{{ item }}</option>{% endfor %}</select>
+  <label class="form-label" for="languages">Languages</label><input class="form-control mb-3" id="languages" name="languages" maxlength="200" value="{{ preferences.languages }}" placeholder="For example, English, Hindi">
+  <label class="form-label" for="availability_notes">Availability notes</label><textarea class="form-control mb-3" id="availability_notes" name="availability_notes" maxlength="500" rows="2" placeholder="Optional general scheduling note">{{ preferences.availability_notes }}</textarea>
+  <button class="btn btn-primary" type="submit">Save profile</button> <a class="btn btn-light" href="{{ url_for('profile') }}">Cancel</a>
+</form></section>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Campus Skill Exchange | Learn Together{% endblock %}
+{% block content %}
+<section class="hero row align-items-center g-5">
+  <div class="col-lg-7">
+    <span class="eyebrow">A campus-wide peer learning community</span>
+    <h1>Learn Together.<br><span>Grow Together.</span></h1>
+    <p class="hero-copy">Share what you know, discover what you want to learn, and find a student who can meet you halfway.</p>
+    <div class="d-flex flex-wrap gap-3">
+      <a class="btn btn-primary btn-lg" href="{{ url_for('register') }}">Get started</a>
+      {% if current_user %}<a class="btn btn-outline-primary btn-lg" href="{{ url_for('explore') }}">Explore skills</a>
+      {% else %}<a class="btn btn-outline-primary btn-lg" href="{{ url_for('login') }}">Explore skills</a>{% endif %}
+    </div>
+    <div class="hero-note mt-4">{{ skill_count }} skill topics in the directory · Free, student-to-student learning</div>
+  </div>
+  <div class="col-lg-5">
+    <div class="hero-card">
+      <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+      <div class="exchange-card card-left"><span class="avatar">A</span><div><strong>Can teach</strong><br>Python</div></div>
+      <div class="exchange-symbol">⇄</div>
+      <div class="exchange-card card-right"><span class="avatar avatar-coral">M</span><div><strong>Wants to learn</strong><br>Python</div></div>
+      <div class="match-pill">A skill match made on campus</div>
+    </div>
+  </div>
+</section>
+<section id="explore" class="section-block">
+  <div class="section-heading"><div><span class="eyebrow">How it works</span><h2>Small skills. Big possibilities.</h2></div></div>
+  <div class="row g-4">
+    <div class="col-md-4"><article class="feature-card"><span class="feature-number">01</span><h3>Share your skills</h3><p>Add the skills you can teach and the topics you would love to learn.</p></article></div>
+    <div class="col-md-4"><article class="feature-card"><span class="feature-number">02</span><h3>Find your people</h3><p>Explore student profiles and get explainable recommendations for complementary interests.</p></article></div>
+    <div class="col-md-4"><article class="feature-card"><span class="feature-number">03</span><h3>Learn together</h3><p>Arrange an exchange, schedule a session, and share feedback after learning.</p></article></div>
+  </div>
+</section>
+{% endblock %}

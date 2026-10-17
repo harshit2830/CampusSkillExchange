@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Review reports | Campus Skill Exchange{% endblock %}
+{% block content %}
+<div class="page-heading"><div><span class="eyebrow">Administrator area</span><h1>Reported users</h1></div></div>
+<section class="profile-panel">{% for report in reports %}<article class="list-card"><div class="d-flex justify-content-between"><strong>{{ report.reported_user.full_name }}</strong><span class="status-badge">{{ report.status }}</span></div><p>Reported by {{ report.reporter.full_name }} · {{ report.reason }}</p>{% if report.status == 'Open' %}<div class="d-flex gap-2">{% for status in ['Reviewed', 'Dismissed'] %}<form method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="report_id" value="{{ report.id }}"><input type="hidden" name="status" value="{{ status }}"><button class="btn btn-sm btn-outline-primary">{{ status }}</button></form>{% endfor %}</div>{% endif %}</article>{% else %}<p class="muted">No reports have been submitted.</p>{% endfor %}</section>
+{% endblock %}

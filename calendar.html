@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Session calendar | Campus Skill Exchange{% endblock %}
+{% block content %}
+<div class="page-heading"><div><span class="eyebrow">Your upcoming learning plan</span><h1>Session calendar</h1><p>Upcoming scheduled sessions over the next 30 days.</p></div><a class="btn btn-outline-primary" href="{{ url_for('sessions_list') }}">Manage sessions</a></div>
+<section class="profile-panel">{% for item in events %}<article class="calendar-event"><div class="calendar-date"><strong>{{ item.starts_at.strftime('%d') }}</strong><span>{{ item.starts_at.strftime('%b') }}</span></div><div class="calendar-details"><strong>{{ item.starts_at.strftime('%A · %I:%M %p') }} – {{ item.ends_at.strftime('%I:%M %p') }}</strong><p>Skill exchange with {{ item.exchange_request.receiver.full_name if item.exchange_request.sender_id == current_user.id else item.exchange_request.sender.full_name }}</p><p class="muted">{{ item.location }}</p><a href="{{ url_for('request_detail', request_id=item.request_id) }}">View exchange</a></div></article>{% else %}<div class="empty-state"><h3>Your next 30 days are clear</h3><p>Accepted exchanges can be scheduled from the sessions page.</p><a class="btn btn-primary" href="{{ url_for('sessions_list') }}">View sessions</a></div>{% endfor %}</section>
+{% endblock %}

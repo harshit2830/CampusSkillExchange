@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Notifications | Campus Skill Exchange{% endblock %}
+{% block content %}
+<div class="page-heading"><div><span class="eyebrow">Stay in the loop</span><h1>Notifications</h1></div></div>
+<section class="profile-panel">{% for item in items %}<article class="list-card notification-row {{ 'is-unread' if not item.is_read else '' }}"><div><p>{{ item.message }}</p><small class="muted">{{ item.created_at.strftime('%b %d, %Y · %I:%M %p') }}</small></div>{% if not item.is_read %}<form method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="notification_id" value="{{ item.id }}"><button class="btn btn-sm btn-outline-primary">Mark read</button></form>{% else %}<span class="muted">Read</span>{% endif %}</article>{% else %}<p class="muted">You are all caught up. New requests and session updates will show here.</p>{% endfor %}</section>
+{% endblock %}

@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Manage students | Campus Skill Exchange{% endblock %}
+{% block content %}
+<div class="page-heading"><div><span class="eyebrow">Administrator area</span><h1>Student accounts</h1></div></div>
+<form method="get" class="filter-bar"><div class="flex-grow-1"><label class="form-label" for="q">Search name or email</label><input class="form-control" id="q" name="q" value="{{ query }}"></div><div><button class="btn btn-primary">Search</button></div></form>
+<section class="profile-panel table-responsive"><table class="table align-middle"><thead><tr><th>Student</th><th>College</th><th>Account status</th><th></th></tr></thead><tbody>{% for item in users %}<tr><td>{{ item.full_name }}<br><small class="muted">{{ item.email }}</small></td><td>{{ item.college }}</td><td>{{ 'Active' if item.is_active else 'Disabled' }}</td><td><form method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="user_id" value="{{ item.id }}"><button class="btn btn-sm {{ 'btn-outline-danger' if item.is_active else 'btn-outline-primary' }}">{{ 'Disable' if item.is_active else 'Enable' }}</button></form></td></tr>{% else %}<tr><td colspan="4">No students found.</td></tr>{% endfor %}</tbody></table></section>
+{% endblock %}

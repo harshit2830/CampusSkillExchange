@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Monitor requests | Campus Skill Exchange{% endblock %}
+{% block content %}
+<div class="page-heading"><div><span class="eyebrow">Administrator area</span><h1>Exchange activity</h1><p>Read-only overview of platform requests and their current status.</p></div></div>
+<section class="profile-panel table-responsive"><table class="table align-middle"><thead><tr><th>Request</th><th>Sender</th><th>Receiver</th><th>Skills</th><th>Status</th><th>Created</th></tr></thead><tbody>{% for item in items %}<tr><td>#{{ item.id }}</td><td>{{ item.sender.full_name }}</td><td>{{ item.receiver.full_name }}</td><td>{{ item.skill_offered.name }} ↔ {{ item.skill_requested.name }}</td><td><span class="status-badge">{{ item.status }}</span></td><td>{{ item.created_at.strftime('%b %d, %Y') }}</td></tr>{% else %}<tr><td colspan="6">No requests have been made.</td></tr>{% endfor %}</tbody></table></section>
+{% endblock %}
