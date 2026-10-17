@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Conversation with {{ peer.full_name }} | Campus Skill Exchange{% endblock %}
+{% block content %}
+<div class="page-heading"><div><span class="eyebrow">Private conversation</span><h1>{{ peer.full_name }}</h1><p>{{ peer.college }} · {{ peer.department }}</p></div><a class="btn btn-outline-primary" href="{{ url_for('student_profile', user_id=peer.id) }}">View profile</a></div>
+<section class="conversation-panel">{% for item in messages %}<article class="chat-message {{ 'chat-mine' if item.sender_id == current_user.id else '' }}"><strong>{{ 'You' if item.sender_id == current_user.id else peer.full_name }}</strong><p>{{ item.body }}</p><small>{{ item.created_at.strftime('%b %d · %I:%M %p') }}</small></article>{% else %}<div class="empty-state"><h3>Say hello</h3><p>Start by introducing yourself or asking about a skill.</p></div>{% endfor %}</section>
+<form method="post" class="form-card message-compose mt-3"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><label class="form-label" for="body">Write a message</label><textarea class="form-control" id="body" name="body" rows="3" maxlength="2000" required placeholder="Keep it kind and focused on learning."></textarea><div class="d-flex justify-content-between align-items-center mt-2"><small class="muted">Up to 2,000 characters</small><button class="btn btn-primary">Send message</button></div></form>
+{% endblock %}

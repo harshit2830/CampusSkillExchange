@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Manage skills | Campus Skill Exchange{% endblock %}
+{% block content %}
+<div class="page-heading"><div><span class="eyebrow">Your exchange starts here</span><h1>Manage skills</h1><p>Add the topics you can teach and the ones you want to learn.</p></div></div>
+<section class="form-card mb-4"><h2>Add a skill</h2><form method="post" class="row g-3 align-items-end"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="action" value="add">
+  <div class="col-md-4"><label class="form-label" for="skill_id">Skill</label><select class="form-select" id="skill_id" name="skill_id" required><option value="">Choose a skill</option>{% for skill in available_skills %}<option value="{{ skill.id }}">{{ skill.name }} · {{ skill.category }}</option>{% endfor %}</select></div>
+  <div class="col-md-3"><label class="form-label" for="skill_type">I want to</label><select class="form-select" id="skill_type" name="skill_type"><option value="teach">Teach</option><option value="learn">Learn</option></select></div>
+  <div class="col-md-3"><label class="form-label" for="proficiency">Proficiency (for teaching)</label><select class="form-select" id="proficiency" name="proficiency"><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select></div>
+  <div class="col-md-2"><button class="btn btn-primary w-100" type="submit">Add skill</button></div>
+</form></section>
+<section class="profile-panel"><h2>Your listed skills</h2>{% if entries %}<div class="table-responsive"><table class="table align-middle"><thead><tr><th>Skill</th><th>Category</th><th>Type</th><th>Level</th><th></th></tr></thead><tbody>{% for entry in entries %}<tr><td>{{ entry.skill.name }}</td><td>{{ entry.skill.category }}</td><td><span class="status-badge">{{ 'Can teach' if entry.skill_type == 'teach' else 'Want to learn' }}</span></td><td>{{ entry.proficiency if entry.skill_type == 'teach' else '—' }}</td><td><form method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="action" value="delete"><input type="hidden" name="entry_id" value="{{ entry.id }}"><button class="btn btn-sm btn-outline-danger" type="submit">Remove</button></form></td></tr>{% endfor %}</tbody></table></div>{% else %}<p class="muted">You have not added any skills yet.</p>{% endif %}</section>
+{% endblock %}

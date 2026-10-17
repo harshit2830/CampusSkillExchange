@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Propose an exchange | Campus Skill Exchange{% endblock %}
+{% block content %}
+<div class="page-heading"><div><span class="eyebrow">Start learning together</span><h1>Propose an exchange</h1><p>Send a skill exchange request to {{ receiver.full_name }}.</p></div></div>
+<section class="form-card narrow-card"><form method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <label class="form-label" for="skill_offered_id">A skill I can teach</label><select class="form-select mb-3" name="skill_offered_id" id="skill_offered_id" required><option value="">Choose one of your teaching skills</option>{% for entry in sender_skills %}<option value="{{ entry.skill_id }}">{{ entry.skill.name }}</option>{% endfor %}</select>
+  <label class="form-label" for="skill_requested_id">A skill {{ receiver.full_name.split()[0] }} can teach</label><select class="form-select mb-3" name="skill_requested_id" id="skill_requested_id" required><option value="">Choose one of their teaching skills</option>{% for entry in receiver_skills %}<option value="{{ entry.skill_id }}">{{ entry.skill.name }}</option>{% endfor %}</select>
+  <label class="form-label" for="message">Optional message</label><textarea class="form-control mb-3" name="message" id="message" rows="4" maxlength="500" placeholder="Tell them what you hope to learn."></textarea>
+  {% if not sender_skills or not receiver_skills %}<p class="alert alert-warning">Both students need at least one teaching skill before an exchange can be proposed.</p>{% endif %}
+  <button class="btn btn-primary" type="submit">Send request</button> <a class="btn btn-light" href="{{ url_for('explore') }}">Cancel</a>
+</form></section>
+{% endblock %}

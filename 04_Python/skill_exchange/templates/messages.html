@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Messages | Campus Skill Exchange{% endblock %}
+{% block content %}
+<div class="page-heading"><div><span class="eyebrow">Student conversations</span><h1>Messages</h1><p>Private messages are only visible to the two students in a conversation.</p></div><a class="btn btn-outline-primary" href="{{ url_for('explore') }}">Find a student</a></div>
+<section class="profile-panel">{% for item in conversations %}<a class="conversation-link" href="{{ url_for('conversation', other_user_id=item.peer.id) }}"><span class="avatar">{{ item.peer.full_name[0]|upper }}</span><span class="conversation-info"><strong>{{ item.peer.full_name }}</strong><span class="muted">{{ item.latest.body }}</span><small class="muted">{{ item.latest.created_at.strftime('%b %d · %I:%M %p') }}</small></span>{% if item.unread %}<span class="badge text-bg-primary">{{ item.unread }} new</span>{% endif %}</a>{% else %}<div class="empty-state"><h3>No conversations yet</h3><p>Open a student profile or a skill match and select Message to start a private conversation.</p><a class="btn btn-primary" href="{{ url_for('explore') }}">Explore students</a></div>{% endfor %}</section>
+{% endblock %}

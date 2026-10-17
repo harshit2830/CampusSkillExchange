@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Create account' if mode == 'register' else 'Log in' }} | Campus Skill Exchange{% endblock %}
+{% block content %}
+<div class="auth-wrap">
+  <div class="auth-aside"><span class="eyebrow">Campus Skill Exchange</span><h1>{{ 'Your next skill starts here.' if mode == 'register' else 'Welcome back.' }}</h1><p>Learn from your campus community and help someone else grow.</p></div>
+  <section class="form-card">
+    <h2>{{ 'Create your student account' if mode == 'register' else 'Log in to your account' }}</h2>
+    <p class="muted">{{ 'Use your college email to get started.' if mode == 'register' else 'Continue your skill exchange.' }}</p>
+    <form method="post">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      {% if mode == 'register' %}
+        <label class="form-label" for="full_name">Full name</label><input class="form-control mb-3" id="full_name" name="full_name" maxlength="100" required value="{{ request.form.get('full_name', '') }}">
+        <label class="form-label" for="email">College email</label><input class="form-control mb-3" id="email" type="email" name="email" maxlength="254" required value="{{ request.form.get('email', '') }}">
+        <div class="row"><div class="col-md-6"><label class="form-label" for="password">Password</label><input class="form-control mb-3" id="password" type="password" name="password" minlength="8" required autocomplete="new-password"></div>
+        <div class="col-md-6"><label class="form-label" for="confirm_password">Confirm password</label><input class="form-control mb-3" id="confirm_password" type="password" name="confirm_password" minlength="8" required autocomplete="new-password"></div></div>
+        <label class="form-label" for="college">College or university</label><input class="form-control mb-3" id="college" name="college" maxlength="150" required value="{{ request.form.get('college', '') }}">
+        <div class="row"><div class="col-md-8"><label class="form-label" for="department">Course or department</label><input class="form-control mb-3" id="department" name="department" maxlength="100" required value="{{ request.form.get('department', '') }}"></div>
+        <div class="col-md-4"><label class="form-label" for="semester">Semester</label><input class="form-control mb-3" id="semester" type="number" name="semester" min="1" max="12" required value="{{ request.form.get('semester', '') }}"></div></div>
+        <label class="form-label" for="bio">Short bio <span class="muted">(optional)</span></label><textarea class="form-control mb-3" id="bio" name="bio" maxlength="500" rows="3">{{ request.form.get('bio', '') }}</textarea>
+      {% else %}
+        <label class="form-label" for="email">College email</label><input class="form-control mb-3" id="email" type="email" name="email" required autocomplete="email">
+        <label class="form-label" for="password">Password</label><input class="form-control mb-3" id="password" type="password" name="password" required autocomplete="current-password">
+      {% endif %}
+      <button class="btn btn-primary w-100 mt-2" type="submit">{{ 'Create account' if mode == 'register' else 'Log in' }}</button>
+    </form>
+    <p class="auth-switch">{% if mode == 'register' %}Already registered? <a href="{{ url_for('login') }}">Log in</a>{% else %}New to the exchange? <a href="{{ url_for('register') }}">Create an account</a>{% endif %}</p>
+  </section>
+</div>
+{% endblock %}

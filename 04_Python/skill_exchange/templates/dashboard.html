@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Dashboard | Campus Skill Exchange{% endblock %}
+{% block content %}
+<div class="page-heading"><div><span class="eyebrow">Your learning space</span><h1>Hello, {{ current_user.full_name.split()[0] }}.</h1><p>Keep your skills moving and find your next learning partner.</p></div><a class="btn btn-primary" href="{{ url_for('skills') }}">Manage my skills</a></div>
+<div class="row g-3 stats-row">
+  <div class="col-6 col-lg-3"><div class="stat-card"><span>Can teach</span><strong>{{ teach_count }}</strong></div></div>
+  <div class="col-6 col-lg-3"><div class="stat-card"><span>Want to learn</span><strong>{{ learn_count }}</strong></div></div>
+  <div class="col-6 col-lg-3"><div class="stat-card"><span>Requests sent</span><strong>{{ sent_count }}</strong></div></div>
+  <div class="col-6 col-lg-3"><div class="stat-card"><span>Sessions</span><strong>{{ session_count }}</strong></div></div>
+</div>
+<section class="row g-3 mb-4" aria-label="Quick links">
+  <div class="col-6 col-md-3"><a class="admin-link" href="{{ url_for('explore') }}">Discover students and skills →</a></div>
+  <div class="col-6 col-md-3"><a class="admin-link" href="{{ url_for('skill_suggestions') }}">Get skill ideas →</a></div>
+  <div class="col-6 col-md-3"><a class="admin-link" href="{{ url_for('availability') }}">Share available times →</a></div>
+  <div class="col-6 col-md-3"><a class="admin-link" href="{{ url_for('saved_items') }}">Open saved list →</a></div>
+</section>
+<section class="section-block">
+  <div class="section-heading"><div><span class="eyebrow">Picked for you</span><h2>Skill matches</h2></div><a href="{{ url_for('matches') }}">See all matches →</a></div>
+  {% if matches %}<div class="row g-3">{% for match in matches %}<div class="col-md-4"><article class="person-card"><div class="d-flex justify-content-between"><span class="avatar">{{ match.student[0]|upper }}</span><span class="score">{{ match.score }}% match</span></div><h3>{{ match.student }}</h3><p>{{ match.skills_they_teach|join(', ') if match.skills_they_teach else 'No direct teaching match' }}</p><a class="btn btn-sm btn-outline-primary" href="{{ url_for('new_request', receiver_id=match.student_id) }}">Propose an exchange</a></article></div>{% endfor %}</div>{% else %}<div class="empty-state"><h3>Your next match starts with a skill</h3><p>Add skills you teach and want to learn to receive recommendations.</p><a class="btn btn-primary" href="{{ url_for('skills') }}">Add my skills</a></div>{% endif %}
+</section>
+{% endblock %}
